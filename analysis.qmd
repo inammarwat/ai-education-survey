@@ -1,0 +1,284 @@
+---
+title: "Analysis"
+format: html
+---
+
+```{r hist_ai_knowledge_interactive, echo = FALSE, message = FALSE, warning = FALSE}
+# ---------------------------------------------------------------------------
+# Load cleaned survey data (created in R/01‑load‑clean.R).  All heavy lifting
+# — reading the CSV, renaming columns, creating factors — happens there.
+# ---------------------------------------------------------------------------
+
+source("R/01-load-clean.R")
+```
+
+
+```{r}
+# ------------------------------------------------------------------------------
+# Interactive histogram of self‑reported AI knowledge (Q1).
+# • Three bucket colours: Low (red), Medium (yellow), High (green)
+# • Hover tooltip shows score, bucket, and student count.
+# ------------------------------------------------------------------------------
+
+library(tidyverse)
+library(plotly)
+
+# Define bucketed knowledge levels
+plot_data <- survey_data |>
+  filter(!is.na(q1_ai_knowledge)) |>
+  mutate(
+    knowledge_bucket = case_when(
+      q1_ai_knowledge <= 3 ~ "Low (1–3)",
+      q1_ai_knowledge <= 7 ~ "Medium (4–7)",
+      TRUE                ~ "High (8–10)"
+    ) |> factor(
+      levels = c("Low (1–3)", "Medium (4–7)", "High (8–10)")
+    )
+  )
+
+# Build the plot
+library(ggplot2)
+library(plotly)
+
+g <- ggplot(
+    plot_data,
+    aes(x = q1_ai_knowledge, fill = knowledge_bucket)
+  ) +
+  geom_histogram(binwidth = 1, boundary = 0.5, colour = "white") +
+  scale_fill_manual(
+    values = c(
+      "Low (1–3)"    = "#d73027",
+      "Medium (4–7)" = "#fee08b",
+      "High (8–10)"  = "#1a9850"
+    )
+  ) +
+  labs(
+    title    = "Self‑Reported AI Knowledge Levels Among Students",
+    subtitle = "Most students report moderate AI knowledge (scores 4–7); few consider themselves experts.",
+    x        = "AI Knowledge Score (1 = Novice … 10 = Expert)",
+    y        = "Number of Students",
+    fill     = "Knowledge Level"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(size = 12))
+
+# Render as interactive plot
+ggplotly(g)
+```
+
+::: {.callout-note title="Figure Interpretation"}
+
+The histogram illustrates how students rated their own AI knowledge on a 1–10 scale.  
+**Medium‑level familiarity dominates:** about 60 % of respondents fall in the 4–7 range, suggesting they understand basic AI concepts but are not yet experts. Roughly one‑fifth identify as beginners (scores 1‑3), while another one‑fifth rate themselves as highly knowledgeable (8‑10).  
+
+This distribution underpins other findings in the project—students who place themselves in the high‑knowledge bracket exhibit greater trust in AI‑based grading and are more optimistic about AI’s educational benefits.
+
+:::
+
+```{r}
+# ── Perceptions of AI in Education ───────────────────────────────────────────
+# Convert four Likert‑style items (Teaching, Learning, Evaluation, Disadvantage)
+# into long format, compute means, and draw an ordered bar chart.
+# ---------------------------------------------------------------------------
+
+library(tidyverse)
+
+edu_melt <- survey_data %>%
+  select(
+    advantage_teach,
+    advantage_learn,
+    advantage_eval,
+    disadvantage_ed
+  ) %>%
+  rename(
+    Teaching      = advantage_teach,
+    Learning      = advantage_learn,
+    Evaluation    = advantage_eval,
+    Disadvantages = disadvantage_ed
+  ) %>%
+  pivot_longer(
+    cols      = everything(),
+    names_to  = "Aspect",
+    values_to = "Rating"
+  ) %>%
+  group_by(Aspect) %>%
+  summarise(
+    mean_rating = mean(Rating, na.rm = TRUE),
+    .groups     = "drop"
+  ) %>%
+  arrange(desc(mean_rating))      # order bars high → low
+
+ggplot(edu_melt, aes(x = reorder(Aspect, mean_rating), y = mean_rating,
+                     fill = Aspect)) +
+  geom_col(width = 0.65) +
+  scale_y_continuous(
+    limits = c(0, 5),
+    breaks = 0:5,
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  scale_fill_brewer(type = "qual", palette = "Set2") +
+  labs(
+    title    = "Average Perceptions of AI Across Educational Aspects",
+    subtitle = paste(
+      "Students view AI most positively for *Learning* and *Teaching*;",
+      "concerns center on potential *Disadvantages*.", sep = "\n"
+    ),
+    x        = "Educational Aspect",
+    y        = "Average Likert Rating (1 = Strongly Disagree … 5 = Strongly Agree)",
+    fill     = NULL      # legend title
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "none",
+    axis.title.x    = element_text(margin = margin(t = 10)),
+    axis.text.x     = element_text(angle = 25, hjust = 1)
+  )
+```
+::: {.callout-note title="Figure Interpretation"}
+Students rate **Learning** and **Teaching** aspects of AI highest (≈ 3.8 on a 5‑point scale), indicating optimism about AI‑enabled lesson delivery and personalized instruction. Evaluation receives a moderate score, suggesting cautious acceptance of AI‑assisted grading. The lowest average (≈ 2.6) appears under Disadvantages, reflecting ongoing concerns—such as diminished teacher‑student interaction or system failures—that still temper students’ overall enthusiasm.
+:::
+
+```{r}
+# ── Domains Where Students Expect AI to Have High Impact ────────────────────
+# ordered bar chart with a colour gradient keyed to student count.
+# ---------------------------------------------------------------------------
+
+library(tidyverse)
+
+domain_data <- survey_data %>%
+  summarise(
+    Education      = sum(q6_number_1_education,      na.rm = TRUE),
+    Medicine       = sum(q6_number_2_medicine,       na.rm = TRUE),
+    Agriculture    = sum(q6_number_3_agriculture,    na.rm = TRUE),
+    Construction   = sum(q6_number_4_constructions,  na.rm = TRUE),
+    Marketing      = sum(q6_number_5_marketing,      na.rm = TRUE),
+    Administration = sum(q6_number_6_administration, na.rm = TRUE),
+    Art            = sum(q6_number_7_art,            na.rm = TRUE)
+  ) %>%
+  pivot_longer(
+    cols      = everything(),
+    names_to  = "Domain",
+    values_to = "Count"
+  ) %>%
+  arrange(desc(Count))
+
+ggplot(
+    domain_data,
+    aes(x = reorder(Domain, Count), y = Count, fill = Count)
+  ) +
+  geom_col(width = 0.7) +
+  scale_fill_viridis_c(option = "viridis", direction = -1) +
+  labs(
+    title    = "Where Do Students Expect AI to Make the Biggest Impact?",
+    subtitle = "Medicine tops the list; creative fields like Art trail behind.",
+    x        = "Domain",
+    y        = "Number of Students Selecting the Domain",
+    fill     = "Student Count"
+  ) +
+  coord_flip() +                       # horizontal bars for readability
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.y  = element_text(size = 12),
+    legend.position = "right"
+  )
+```
+::: {.callout-note title="Figure Interpretation"}
+Students overwhelmingly believe Medicine is the domain where AI will make the greatest impact, followed by Education and Construction. Fewer students expect significant AI benefits in Art and marketing. This ranking suggests that learners view AI primarily as a tool for knowledge delivery and health innovation, while creative and manual fields are perceived as less AI‑driven—at least for now.
+:::
+
+
+```{r}
+knowledge_comparison <- survey_data %>% 
+  group_by(knowledge_level) %>% 
+  summarise(
+    Teaching      = mean(advantage_teach,  na.rm = TRUE),
+    Learning      = mean(advantage_learn,  na.rm = TRUE),
+    Evaluation    = mean(advantage_eval,   na.rm = TRUE),
+    Disadvantages = mean(disadvantage_ed,  na.rm = TRUE)
+  )
+
+knitr::kable(
+  knowledge_comparison,
+  caption = "Table 2  Perceptions by Knowledge Level"
+)
+```
+
+```{r}
+# ── Perceptions of AI by Knowledge Level ────────────────────────────────────
+# Compute mean Likert scores for four perception items within each knowledge
+# bucket (Low / Medium / High), then plot as a grouped bar chart.
+# ---------------------------------------------------------------------------
+
+library(tidyverse)
+
+perception_long <- survey_data %>%
+  group_by(knowledge_level) %>%
+  summarise(
+    across(
+      c(
+        advantage_teach,
+        advantage_learn,
+        advantage_eval,
+        disadvantage_ed
+      ),
+      \(x) mean(x, na.rm = TRUE)
+    ),
+    .groups = "drop"
+  ) %>%
+  pivot_longer(
+    -knowledge_level,
+    names_to  = "Perception",
+    values_to = "Mean"
+  ) %>%
+  mutate(
+    Perception = recode(
+      Perception,
+      advantage_teach = "Teaching",
+      advantage_learn = "Learning",
+      advantage_eval  = "Evaluation",
+      disadvantage_ed = "Disadvantages"
+    ),
+    Perception = factor(
+      Perception,
+      levels = c("Teaching", "Learning", "Evaluation", "Disadvantages")
+    )
+  )
+
+ggplot(
+    perception_long,
+    aes(
+      x    = Perception,
+      y    = Mean,
+      fill = knowledge_level
+    )
+  ) +
+  geom_col(position = "dodge", width = 0.7) +
+  scale_y_continuous(limits = c(0, 5), breaks = 0:5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title    = "How AI Perceptions Shift with Student Knowledge Levels",
+    subtitle = paste(
+      "Students with higher self‑reported AI knowledge rate Learning and",
+      "Teaching aspects more positively, while concerns about",
+      "Disadvantages persist across all groups."
+    ),
+    x    = "Perception Aspect",
+    y    = "Average Likert Rating (1 = Strongly Disagree … 5 = Strongly Agree)",
+    fill = "Knowledge Level"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 25, hjust = 1),
+    legend.position = "right"
+  )
+```
+::: {.callout-note title="Figure Interpretation"}
+Students who rate themselves High on AI knowledge consistently give the most
+favorable scores to AI’s role in Learning and Teaching (≈ 4 / 5), while
+those in the Low knowledge group remain more cautious (≈ 3 / 5). The
+Evaluation aspect shows a moderate uplift with greater knowledge, suggesting
+growing confidence in AI‑assisted grading. Notably, perceptions of
+Disadvantages remain below the midpoint for every group, indicating that
+concerns—such as reduced human interaction or system failures—are shared
+regardless of expertise.
+:::

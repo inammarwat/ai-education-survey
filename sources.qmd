@@ -1,0 +1,8 @@
+---
+title: "Data Sources"
+---
+
+## Original Data Source
+- **Dataset**: [Survey on Students' Perceptions of AI in Education](https://www.kaggle.com/datasets/gianinamariapetrascu/survey-on-students-perceptions-of-ai-in-education)
+- **Author**: Gianina Maria Petrascu (2023)
+- **Sample**: 1,200 university students across 10 countries
