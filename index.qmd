@@ -1,5 +1,5 @@
 ---
-title: "Public Perceptions of AI on Education"
+title: "Students' Perceptions of AI in Education"
 author: "Inam Khan"
 format: html
 page-layout: full
@@ -11,8 +11,8 @@ execute:
 
 # How Students from Different Majors Perceive AI in Education
 
-> **How do university students perceive the usefulness of AI in education, and why do those perceptions differ by field of study?**  
-> Drawing on a 2023 Kaggle survey of ~1,200 cybernetics undergraduates, this project cleans and analyzes self‑reported data on AI knowledge, utility, and concerns. The headline result shows that STEM‑leaning majors (**Economic Informatics** and **Economic Cybernetics**) are nearly twice as likely to rate AI’s educational utility at the top of the scale (scores 8–10) compared with their peers in **Statistics & Forecasting**. At the same time, roughly 40 % of all students—regardless of major—still fear AI could replace teachers, underscoring a tension between optimism and caution. By visualizing these contrasts and linking them to knowledge levels and demographic factors, the project highlights where universities must address skepticism while leveraging students’ enthusiasm for AI‑enhanced learning.
+**How do university students perceive the usefulness of AI in education, and why do those perceptions differ by field of study?**  
+Drawing on a 2023 Kaggle survey of ~1,200 cybernetics undergraduates, this project cleans and analyzes self‑reported data on AI knowledge, utility, and concerns. The headline result shows that STEM‑leaning majors (**Economic Informatics** and **Economic Cybernetics**) are nearly twice as likely to rate AI’s educational utility at the top of the scale (scores 8–10) compared with their peers in **Statistics & Forecasting**. At the same time, roughly 40 % of all students—regardless of major—still fear AI could replace teachers, underscoring a tension between optimism and caution. By visualizing these contrasts and linking them to knowledge levels and demographic factors, the project highlights where universities must address skepticism while leveraging students’ enthusiasm for AI‑enhanced learning.
 
 ```{r}
 library(tidyverse)
@@ -54,34 +54,8 @@ p <- ai |>
   ) +
   theme_minimal(base_size = 14) +
   theme(axis.text.x = element_text(angle = 30, hjust = 1))
-# Add both subtitle and caption as annotations
-ggplotly(p) |>
-  layout(
-    annotations = list(
-      list(
-        x = 0.3,
-        y = 1.03,
-        text = "STEM‑oriented students give far more top (8–10) utility scores than their statistics‑focused peers, highlighting a clear major‑based optimism gap.",
-        xref = "paper",
-        yref = "paper",
-        xanchor = "center",
-        yanchor = "bottom",
-        showarrow = FALSE,
-        font = list(size = 13, color = "gray20", family = "Arial")
-      ),
-      list(
-        x = 1.2,
-        y = 0.15,
-        text = "Data source: Kaggle — (Petrascu 2023)",
-        showarrow = FALSE,
-        xref = "paper",
-        yref = "paper",
-        xanchor = "right",
-        font = list(size = 11, color = "gray30")
-      )
-    ),
-    margin = list(b = 80, t = 100)
-  )
+# Convert to interactive plot and add caption
+ggplotly(p) 
 ```
 
 ::: {.callout-note title="Key Takeaways"}
@@ -93,5 +67,4 @@ ggplotly(p) |>
 - **Utility ≠ full acceptance**: While AI is perceived as useful, many students still express concerns about job replacement and fairness—especially those with lower AI knowledge.
 
 - **Clear need for targeted education**: Bridging knowledge gaps and addressing ethical concerns could accelerate adoption and trust in AI-assisted learning tools.
-
 :::

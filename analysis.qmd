@@ -1,9 +1,14 @@
 ---
 title: "Analysis"
 format: html
+page-layout: full
+execute: 
+  echo: false
+  warning: false
+  message: false
 ---
 
-```{r hist_ai_knowledge_interactive, echo = FALSE, message = FALSE, warning = FALSE}
+```{r}
 # ---------------------------------------------------------------------------
 # Load cleaned survey data (created in R/01‑load‑clean.R).  All heavy lifting
 # — reading the CSV, renaming columns, creating factors — happens there.
@@ -19,6 +24,10 @@ source("R/01-load-clean.R")
 # • Three bucket colours: Low (red), Medium (yellow), High (green)
 # • Hover tooltip shows score, bucket, and student count.
 # ------------------------------------------------------------------------------
+
+#| message = false
+#| warning = false
+
 
 library(tidyverse)
 library(plotly)
@@ -134,11 +143,12 @@ ggplot(edu_melt, aes(x = reorder(Aspect, mean_rating), y = mean_rating,
     axis.text.x     = element_text(angle = 25, hjust = 1)
   )
 ```
+
 ::: {.callout-note title="Figure Interpretation"}
 Students rate **Learning** and **Teaching** aspects of AI highest (≈ 3.8 on a 5‑point scale), indicating optimism about AI‑enabled lesson delivery and personalized instruction. Evaluation receives a moderate score, suggesting cautious acceptance of AI‑assisted grading. The lowest average (≈ 2.6) appears under Disadvantages, reflecting ongoing concerns—such as diminished teacher‑student interaction or system failures—that still temper students’ overall enthusiasm.
 :::
 
-```{r}
+```{r my_plot_chunk, echo = FALSE, message = FALSE, warning = FALSE}
 # ── Domains Where Students Expect AI to Have High Impact ────────────────────
 # ordered bar chart with a colour gradient keyed to student count.
 # ---------------------------------------------------------------------------

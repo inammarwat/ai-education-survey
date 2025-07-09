@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Students' Perceptions of AI in Education"
+  title: "AI-survey in Education"
   navbar:
     left:
       - file: index.qmd
