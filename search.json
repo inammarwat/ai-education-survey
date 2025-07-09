@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Data Sources",
+    "section": "",
+    "text": "Dataset: Survey on Students’ Perceptions of AI in Education\nAuthor: Gianina Maria Petrascu (2023)\nSample: 1,200 university students across 10 countries"
+  },
+  {
+    "objectID": "sources.html#original-data-source",
+    "href": "sources.html#original-data-source",
+    "title": "Data Sources",
+    "section": "",
+    "text": "Dataset: Survey on Students’ Perceptions of AI in Education\nAuthor: Gianina Maria Petrascu (2023)\nSample: 1,200 university students across 10 countries"
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Analysis",
+    "section": "",
+    "text": "Figure Interpretation\n\n\n\nThe histogram illustrates how students rated their own AI knowledge on a 1–10 scale.\nMedium‑level familiarity dominates: about 60 % of respondents fall in the 4–7 range, suggesting they understand basic AI concepts but are not yet experts. Roughly one‑fifth identify as beginners (scores 1‑3), while another one‑fifth rate themselves as highly knowledgeable (8‑10).\nThis distribution underpins other findings in the project—students who place themselves in the high‑knowledge bracket exhibit greater trust in AI‑based grading and are more optimistic about AI’s educational benefits.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure Interpretation\n\n\n\nStudents rate Learning and Teaching aspects of AI highest (≈ 3.8 on a 5‑point scale), indicating optimism about AI‑enabled lesson delivery and personalized instruction. Evaluation receives a moderate score, suggesting cautious acceptance of AI‑assisted grading. The lowest average (≈ 2.6) appears under Disadvantages, reflecting ongoing concerns—such as diminished teacher‑student interaction or system failures—that still temper students’ overall enthusiasm.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure Interpretation\n\n\n\nStudents overwhelmingly believe Medicine is the domain where AI will make the greatest impact, followed by Education and Construction. Fewer students expect significant AI benefits in Art and marketing. This ranking suggests that learners view AI primarily as a tool for knowledge delivery and health innovation, while creative and manual fields are perceived as less AI‑driven—at least for now.\n\n\n\n\n\nTable 2  Perceptions by Knowledge Level\n\n\nknowledge_level\nTeaching\nLearning\nEvaluation\nDisadvantages\n\n\n\n\nLow\n1.888889\n1.888889\n2.000000\n2.222222\n\n\nMedium\n1.951613\n1.935484\n2.274193\n2.080645\n\n\nHigh\n1.850000\n1.700000\n2.300000\n2.100000\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure Interpretation\n\n\n\nStudents who rate themselves High on AI knowledge consistently give the most favorable scores to AI’s role in Learning and Teaching (≈ 4 / 5), while those in the Low knowledge group remain more cautious (≈ 3 / 5). The Evaluation aspect shows a moderate uplift with greater knowledge, suggesting growing confidence in AI‑assisted grading. Notably, perceptions of Disadvantages remain below the midpoint for every group, indicating that concerns—such as reduced human interaction or system failures—are shared regardless of expertise."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I am Inam Ullah Khan, a data science student passionate about education technology. You can explore more of my work on GitHub or email me at [inamm911@gmail.com].\nThis site presents Public Perceptions of AI on Education, a data project that analyzes a 2023 survey of 1,200 students to uncover attitudes toward AI tools in the classroom. All code and cleaned data live in the project repository: https://github.com/inammarwat/ai-perceptions-education.\nThis project was created as a part of Kane’s Data Science Bootcamp."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Students’ Perceptions of AI in Education",
+    "section": "",
+    "text": "How Students from Different Majors Perceive AI in Education\nHow do university students perceive the usefulness of AI in education, and why do those perceptions differ by field of study?\nDrawing on a 2023 Kaggle survey of ~1,200 cybernetics undergraduates, this project cleans and analyzes self‑reported data on AI knowledge, utility, and concerns. The headline result shows that STEM‑leaning majors (Economic Informatics and Economic Cybernetics) are nearly twice as likely to rate AI’s educational utility at the top of the scale (scores 8–10) compared with their peers in Statistics & Forecasting. At the same time, roughly 40 % of all students—regardless of major—still fear AI could replace teachers, underscoring a tension between optimism and caution. By visualizing these contrasts and linking them to knowledge levels and demographic factors, the project highlights where universities must address skepticism while leveraging students’ enthusiasm for AI‑enhanced learning.\n\n\n\n\n\n\n\n\n\n\n\n\nKey Takeaways\n\n\n\n\nSTEM students show higher trust in AI: Students in Economic Informatics and Economic Cybernetics are significantly more likely to rate AI’s usefulness in education as high (scores 8–10).\nSkepticism persists among Statistics students: Respondents from Statistics & Forecasting are less enthusiastic, reflecting a trust gap based on field of study.\nUtility ≠ full acceptance: While AI is perceived as useful, many students still express concerns about job replacement and fairness—especially those with lower AI knowledge.\nClear need for targeted education: Bridging knowledge gaps and addressing ethical concerns could accelerate adoption and trust in AI-assisted learning tools."
+  }
+]
