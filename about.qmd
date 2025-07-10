@@ -3,8 +3,8 @@ title: "About"
 page-layout: full
 ---
 
-I am **Inam Ullah Khan**, a data science student passionate about education technology. You can explore more of my work on [GitHub](https://github.com/inammarwat) or email me at [inamm911@gmail.com].
+I am **Inam Ullah Khan**, a data science student passionate about education technology. You can explore more of my work on [GitHub](https://github.com/inammarwat) or email me at [Gmail](inamm911@gmail.com).
 
-This site presents **Public Perceptions of AI on Education**, a data project that analyzes a 2023 survey of 1,200 students to uncover attitudes toward AI tools in the classroom. All code and cleaned data live in the project repository: <https://github.com/inammarwat/ai-perceptions-education>.
+This site presents **Students' Perceptions of AI in Education**, a data project that analyzes a 2023 survey of 1,200 students to uncover attitudes toward AI tools in the classroom. All code and cleaned data live in the project repository: <https://github.com/inammarwat/ai-perceptions-education>.
 
 This project was created as a part of [Kane’s Data Science Bootcamp](https://bootcamp.davidkane.info/).

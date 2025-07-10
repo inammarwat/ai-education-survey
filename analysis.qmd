@@ -17,6 +17,12 @@ execute:
 source("R/01-load-clean.R")
 ```
 
+```{r}
+#load the necessary libraries
+library(tidyverse)
+library(plotly)
+library(ggplot2)
+```
 
 ```{r}
 # ------------------------------------------------------------------------------
@@ -28,9 +34,6 @@ source("R/01-load-clean.R")
 #| message = false
 #| warning = false
 
-
-library(tidyverse)
-library(plotly)
 
 # Define bucketed knowledge levels
 plot_data <- survey_data |>
@@ -46,8 +49,6 @@ plot_data <- survey_data |>
   )
 
 # Build the plot
-library(ggplot2)
-library(plotly)
 
 g <- ggplot(
     plot_data,
@@ -84,13 +85,12 @@ This distribution underpins other findings in the project—students who place t
 
 :::
 
+
 ```{r}
 # ── Perceptions of AI in Education ───────────────────────────────────────────
 # Convert four Likert‑style items (Teaching, Learning, Evaluation, Disadvantage)
 # into long format, compute means, and draw an ordered bar chart.
 # ---------------------------------------------------------------------------
-
-library(tidyverse)
 
 edu_melt <- survey_data %>%
   select(
@@ -115,7 +115,7 @@ edu_melt <- survey_data %>%
     mean_rating = mean(Rating, na.rm = TRUE),
     .groups     = "drop"
   ) %>%
-  arrange(desc(mean_rating))      # order bars high → low
+  arrange(desc(mean_rating))
 
 ggplot(edu_melt, aes(x = reorder(Aspect, mean_rating), y = mean_rating,
                      fill = Aspect)) +
@@ -133,13 +133,14 @@ ggplot(edu_melt, aes(x = reorder(Aspect, mean_rating), y = mean_rating,
       "concerns center on potential *Disadvantages*.", sep = "\n"
     ),
     x        = "Educational Aspect",
-    y        = "Average Likert Rating (1 = Strongly Disagree … 5 = Strongly Agree)",
-    fill     = NULL      # legend title
+    y        = "Avg Likert Rating\n(1 = Strongly Disagree … 5 = Strongly Agree)",
+    fill     = NULL
   ) +
   theme_minimal(base_size = 14) +
   theme(
     legend.position = "none",
     axis.title.x    = element_text(margin = margin(t = 10)),
+    axis.title.y    = element_text(margin = margin(r = 15)),
     axis.text.x     = element_text(angle = 25, hjust = 1)
   )
 ```
@@ -148,12 +149,11 @@ ggplot(edu_melt, aes(x = reorder(Aspect, mean_rating), y = mean_rating,
 Students rate **Learning** and **Teaching** aspects of AI highest (≈ 3.8 on a 5‑point scale), indicating optimism about AI‑enabled lesson delivery and personalized instruction. Evaluation receives a moderate score, suggesting cautious acceptance of AI‑assisted grading. The lowest average (≈ 2.6) appears under Disadvantages, reflecting ongoing concerns—such as diminished teacher‑student interaction or system failures—that still temper students’ overall enthusiasm.
 :::
 
-```{r my_plot_chunk, echo = FALSE, message = FALSE, warning = FALSE}
+
+```{r}
 # ── Domains Where Students Expect AI to Have High Impact ────────────────────
 # ordered bar chart with a colour gradient keyed to student count.
 # ---------------------------------------------------------------------------
-
-library(tidyverse)
 
 domain_data <- survey_data %>%
   summarise(
@@ -198,28 +198,38 @@ Students overwhelmingly believe Medicine is the domain where AI will make the gr
 
 
 ```{r}
+# Summarise average perceptions by AI knowledge level
 knowledge_comparison <- survey_data %>% 
   group_by(knowledge_level) %>% 
   summarise(
-    Teaching      = mean(advantage_teach,  na.rm = TRUE),
-    Learning      = mean(advantage_learn,  na.rm = TRUE),
-    Evaluation    = mean(advantage_eval,   na.rm = TRUE),
-    Disadvantages = mean(disadvantage_ed,  na.rm = TRUE)
+    Teaching      = mean(advantage_teach,      na.rm = TRUE),
+    Learning      = mean(advantage_learn,      na.rm = TRUE),
+    Evaluation    = mean(advantage_eval,       na.rm = TRUE),
+    Disadvantages = mean(disadvantage_ed,      na.rm = TRUE),
+    .groups       = "drop"
   )
 
+# Display the summary table with a caption
 knitr::kable(
   knowledge_comparison,
-  caption = "Table 2  Perceptions by Knowledge Level"
+  caption = "Table 1: Perceptions by AI Knowledge Level",
+  digits = 2,
+  align = "c"
 )
 ```
+
+
+::: {.callout-note title="Interpreting Table 1: Perceptions by Knowledge Level"}
+
+Students with **higher self-reported AI knowledge** consistently rate the benefits of AI in education—especially for **Teaching**, **Learning**, and **Evaluation**—more favorably than those with medium or low knowledge levels. Notably, concern over **Disadvantages** slightly decreases as knowledge increases, suggesting that students who better understand AI are also **less worried about its potential downsides**. This pattern reinforces the idea that familiarity with technology often leads to **greater optimism and reduced skepticism**.
+:::
+
 
 ```{r}
 # ── Perceptions of AI by Knowledge Level ────────────────────────────────────
 # Compute mean Likert scores for four perception items within each knowledge
 # bucket (Low / Medium / High), then plot as a grouped bar chart.
 # ---------------------------------------------------------------------------
-
-library(tidyverse)
 
 perception_long <- survey_data %>%
   group_by(knowledge_level) %>%
@@ -273,7 +283,7 @@ ggplot(
       "Disadvantages persist across all groups."
     ),
     x    = "Perception Aspect",
-    y    = "Average Likert Rating (1 = Strongly Disagree … 5 = Strongly Agree)",
+    y    = "Average Likert Rating\n(1 = Strongly Disagree … 5 = Strongly Agree)",
     fill = "Knowledge Level"
   ) +
   theme_minimal(base_size = 14) +
