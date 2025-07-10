@@ -61,7 +61,8 @@ g <- ggplot(
   ) +
   labs(
     title    = "Self‑Reported AI Knowledge Levels Among Students",
-    subtitle = "Most students report moderate AI knowledge (scores 4–7); few consider themselves experts.",
+    subtitle = paste("Most students report moderate AI knowledge (scores 4–7); few consider themselves experts."
+    ),
     x        = "AI Knowledge Score (1 = Novice … 10 = Expert)",
     y        = "Number of Students",
     fill     = "Knowledge Level"
