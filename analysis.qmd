@@ -31,9 +31,6 @@ library(ggplot2)
 # • Hover tooltip shows score, bucket, and student count.
 # ------------------------------------------------------------------------------
 
-#| message = false
-#| warning = false
-
 
 # Define bucketed knowledge levels
 plot_data <- survey_data |>
@@ -179,7 +176,7 @@ ggplot(
   geom_col(width = 0.7) +
   scale_fill_viridis_c(option = "viridis", direction = -1) +
   labs(
-    title    = "Where Do Students Expect AI to Make the Biggest Impact?",
+    title    = "Student Expectations: AI's Biggest Impact Areas",
     subtitle = "Medicine tops the list; creative fields like Art trail behind.",
     x        = "Domain",
     y        = "Number of Students Selecting the Domain",
@@ -278,9 +275,7 @@ ggplot(
   labs(
     title    = "How AI Perceptions Shift with Student Knowledge Levels",
     subtitle = paste(
-      "Students with higher self‑reported AI knowledge rate Learning and",
-      "Teaching aspects more positively, while concerns about",
-      "Disadvantages persist across all groups."
+      "Higher AI knowledge boosts ratings for Learning and Teaching; Disadvantages remain a shared concern."
     ),
     x    = "Perception Aspect",
     y    = "Average Likert Rating\n(1 = Strongly Disagree … 5 = Strongly Agree)",
